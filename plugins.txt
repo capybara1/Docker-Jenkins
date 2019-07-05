@@ -78,7 +78,7 @@ plain-credentials:latest
 pubsub-light:latest
 resource-disposer:latest
 scm-api:latest
-script-security:latest
+
 sse-gateway:latest
 ssh-credentials:latest
 structs:latest
