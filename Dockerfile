@@ -13,4 +13,4 @@ LABEL org.label-schema.schema-version="1.0" \
       org.label-schema.build-date="$BUILD_DATE" \
       org.label-schema.dockerfile="/Dockerfile"
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
-RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
+RUN ATTEMPTS=2 /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
