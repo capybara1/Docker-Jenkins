@@ -38,20 +38,8 @@ RUN set -x; \
     CURL_RETRY_MAX_TIME="${ARG_CURL_RETRY_MAX_TIME}" \
     /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
 USER root
-RUN set -eux; \
-    dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"; \
-    export GNUPGHOME="$(mktemp -d)"; \
-    apk add --no-cache --virtual .gosu-deps ca-certificates dpkg gnupg; \
-    wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch"; \
-    wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc"; \
-    gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4; \
-    gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu; \
-    command -v gpgconf && gpgconf --kill all || :; \
-    rm -rf "$GNUPGHOME" /usr/local/bin/gosu.asc; \
-    apk del --no-network .gosu-deps; \
-    chmod +x /usr/local/bin/gosu; \
-    gosu --version; \
-    gosu nobody true
+RUN set -x; \
+    apk add --no-cache su-exec
 RUN set -x; \
     cd /tmp/ \
  && curl -sSL -O https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz \
