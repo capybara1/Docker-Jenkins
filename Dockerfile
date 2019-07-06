@@ -13,7 +13,6 @@ ARG ARG_CURL_RETRY
 ARG ARG_CURL_RETRY_DELAY
 ARG ARG_CURL_RETRY_MAX_TIME
 ENV DOCKER_VERSION 17.09.0-ce
-ENV GOSU_VERSION 1.11
 LABEL org.label-schema.schema-version="1.0" \
       org.label-schema.version="$VERSION" \
       org.label-schema.maintainer="https://github.com/capybara1/" \
