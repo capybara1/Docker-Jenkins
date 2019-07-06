@@ -13,6 +13,7 @@ ARG ARG_CURL_RETRY
 ARG ARG_CURL_RETRY_DELAY
 ARG ARG_CURL_RETRY_MAX_TIME
 ENV DOCKER_VERSION 17.09.0-ce
+ENV GOSU_VERSION 1.11
 LABEL org.label-schema.schema-version="1.0" \
       org.label-schema.version="$VERSION" \
       org.label-schema.maintainer="https://github.com/capybara1/" \
@@ -23,17 +24,6 @@ LABEL org.label-schema.schema-version="1.0" \
       org.label-schema.vcs-ref="$VCS_REF" \
       org.label-schema.build-date="$BUILD_DATE" \
       org.label-schema.dockerfile="/Dockerfile"
-USER root
-RUN set -x; \
-    cd /tmp/ \
- && curl -sSL -O https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz \
- && tar zxf docker-${DOCKER_VERSION}.tgz \
- && mkdir -p /usr/local/bin/ \
- && mv $(find -name 'docker' -type f) /usr/local/bin/ \
- && chmod +x /usr/local/bin/docker \
- && rm -rf /tmp/*
-COPY docker-entrypoint.sh /
-USER jenkins
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 RUN set -x; \
     ATTEMPTS="${ARG_ATTEMPTS}" \
@@ -47,4 +37,28 @@ RUN set -x; \
     CURL_RETRY_DELAY="${ARG_CURL_RETRY_DELAY}" \
     CURL_RETRY_MAX_TIME="${ARG_CURL_RETRY_MAX_TIME}" \
     /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
+USER root
+RUN set -eux; \
+    dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"; \
+    export GNUPGHOME="$(mktemp -d)"; \
+    apk add --no-cache --virtual .gosu-deps ca-certificates dpkg gnupg; \
+    wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch"; \
+    wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc"; \
+    gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4; \
+    gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu; \
+    command -v gpgconf && gpgconf --kill all || :; \
+    rm -rf "$GNUPGHOME" /usr/local/bin/gosu.asc; \
+    apk del --no-network .gosu-deps; \
+    chmod +x /usr/local/bin/gosu; \
+    gosu --version; \
+    gosu nobody true
+RUN set -x; \
+    cd /tmp/ \
+ && curl -sSL -O https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz \
+ && tar zxf docker-${DOCKER_VERSION}.tgz \
+ && mkdir -p /usr/local/bin/ \
+ && mv $(find -name 'docker' -type f) /usr/local/bin/ \
+ && chmod +x /usr/local/bin/docker \
+ && rm -rf /tmp/*
+COPY docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
