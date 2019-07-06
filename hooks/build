@@ -8,18 +8,18 @@ if [[ "$SOURCE_BRANCH" =~ ^v[0-9]+.[0-9]+.[0-9]+$ ]]; then
 fi
 
 docker build \
-  --build-arg VERSION=$VERSION \
-  --build-arg VCS_REF=`git rev-parse --short HEAD` \
-  --build-arg BUILD_DATE=`date -u +”%Y-%m-%dT%H:%M:%SZ”` \
-  -e "ATTEMPTS=${ATTEMPTS:-3}" \
-  -e "TIMEOUT=${TIMEOUT:-1}" \
-  -e "SUCCESS_TIMEOUT=${SUCCESS_TIMEOUT:-1}" \
-  -e "SUCCESS_ATTEMPTS=${SUCCESS_ATTEMPTS:-1}" \
-  -e "CURL_RETRY=${CURL_RETRY:-}" \
-  -e "CURL_OPTIONS=${CURL_OPTIONS:-}" \
-  -e "CURL_CONNECTION_TIMEOUT=${CURL_CONNECTION_TIMEOUT:-}" \
-  -e "CURL_RETRY=${CURL_RETRY:-}" \
-  -e "CURL_RETRY_DELAY${CURL_RETRY_DELAY:-}" \
-  -e "CURL_RETRY_MAX_TIME=${CURL_RETRY_MAX_TIME:-}" \
+  --build-arg "VERSION=$VERSION" \
+  --build-arg "VCS_REF=$(git rev-parse --short HEAD)" \
+  --build-arg "BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" \
+  --build-arg "ARG_ATTEMPTS=${ATTEMPTS:-3}" \
+  --build-arg "ARG_TIMEOUT=${TIMEOUT:-1}" \
+  --build-arg "ARG_SUCCESS_TIMEOUT=${SUCCESS_TIMEOUT:-1}" \
+  --build-arg "ARG_SUCCESS_ATTEMPTS=${SUCCESS_ATTEMPTS:-1}" \
+  --build-arg "ARG_CURL_RETRY=${CURL_RETRY:-}" \
+  --build-arg "ARG_CURL_OPTIONS=${CURL_OPTIONS:-}" \
+  --build-arg "ARG_CURL_CONNECTION_TIMEOUT=${CURL_CONNECTION_TIMEOUT:-}" \
+  --build-arg "ARG_CURL_RETRY=${CURL_RETRY:-}" \
+  --build-arg "ARG_CURL_RETRY_DELAY=${CURL_RETRY_DELAY:-}" \
+  --build-arg "ARG_CURL_RETRY_MAX_TIME=${CURL_RETRY_MAX_TIME:-}" \
   -f $DOCKERFILE_PATH \
   -t $IMAGE_NAME .
