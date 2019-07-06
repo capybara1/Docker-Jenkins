@@ -42,9 +42,10 @@ docker run \
   -d \
   --name jenkins \
   --net host \
-  -v jenkins_home:/var/jenkins_home \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  capybara1/jenkins:1.0
+  -e "DOCKER_GID=$(getent group docker | cut -d: -f3)" \
+  -v "jenkins_home:/var/jenkins_home" \
+  -v "/var/run/docker.sock:/var/run/docker.sock" \
+  "capybara1/jenkins:1.0"
 ```
 
 Assumptions:

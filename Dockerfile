@@ -24,18 +24,19 @@ LABEL org.label-schema.schema-version="1.0" \
       org.label-schema.build-date="$BUILD_DATE" \
       org.label-schema.dockerfile="/Dockerfile"
 USER root
-RUN cd /tmp/ \
+RUN set -x; \
+    cd /tmp/ \
  && curl -sSL -O https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz \
  && tar zxf docker-${DOCKER_VERSION}.tgz \
  && mkdir -p /usr/local/bin/ \
  && mv $(find -name 'docker' -type f) /usr/local/bin/ \
  && chmod +x /usr/local/bin/docker \
- && rm -rf /tmp/* \
- && addgroup docker \
- && addgroup jenkins docker
+ && rm -rf /tmp/*
+COPY docker-entrypoint.sh /
 USER jenkins
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
-RUN ATTEMPTS="${ARG_ATTEMPTS}" \
+RUN set -x; \
+    ATTEMPTS="${ARG_ATTEMPTS}" \
     TIMEOUT="${ARG_TIMEOUT}" \
     SUCCESS_TIMEOUT="${ARG_SUCCESS_TIMEOUT}" \
     SUCCESS_ATTEMPTS="${ARG_SUCCESS_ATTEMPTS}" \
@@ -46,3 +47,4 @@ RUN ATTEMPTS="${ARG_ATTEMPTS}" \
     CURL_RETRY_DELAY="${ARG_CURL_RETRY_DELAY}" \
     CURL_RETRY_MAX_TIME="${ARG_CURL_RETRY_MAX_TIME}" \
     /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
+ENTRYPOINT ["/docker-entrypoint.sh"]
