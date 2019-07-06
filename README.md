@@ -24,8 +24,13 @@ Jenkins container with pre-installed plugins (latest version each):
 - [pam-auth](https://plugins.jenkins.io/pam-auth)
 - [pipeline-build-step](https://plugins.jenkins.io/pipeline-build-step)
 - [pipeline-github-lib](https://plugins.jenkins.io/pipeline-github-lib)
+- [pipeline-stage-view](https://plugins.jenkins.io/pipeline-stage-view)
 - [timestamper](https://plugins.jenkins.io/timestamper)
 - [ws-cleanup](https://plugins.jenkins.io/ws-cleanup)
+
+# Setup Remarks 
+
+Clear selection of plugins during setup
 
 ## Usage
 
