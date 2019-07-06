@@ -3,8 +3,8 @@ ansicolor:latest
 antisamy-markup-formatter:latest
 blueocean:latest
 build-timeout:latest
+cloudbees-folder:latest
 email-ext:latest
-folders:latest
 git:latest
 github:latest
 greenballs:latest
