@@ -32,8 +32,8 @@ RUN cd /tmp/ \
  && chmod +x /usr/local/bin/docker \
  && apk del curl \
  && rm -rf /tmp/* \
- && groupadd docker \
- && usermod -a -G docker jenkins
+ && addgroup docker \
+ && addgroup jenkins docker
 USER jenkins
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 RUN ATTEMPTS="${ARG_ATTEMPTS}" \
