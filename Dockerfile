@@ -30,7 +30,6 @@ RUN cd /tmp/ \
  && mkdir -p /usr/local/bin/ \
  && mv $(find -name 'docker' -type f) /usr/local/bin/ \
  && chmod +x /usr/local/bin/docker \
- && apk del curl \
  && rm -rf /tmp/* \
  && addgroup docker \
  && addgroup jenkins docker
