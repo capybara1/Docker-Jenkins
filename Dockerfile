@@ -12,6 +12,7 @@ ARG ARG_CURL_CONNECTION_TIMEOUT
 ARG ARG_CURL_RETRY
 ARG ARG_CURL_RETRY_DELAY
 ARG ARG_CURL_RETRY_MAX_TIME
+ENV DOCKER_VERSION 17.09.0-ce
 LABEL org.label-schema.schema-version="1.0" \
       org.label-schema.version="$VERSION" \
       org.label-schema.maintainer="https://github.com/capybara1/" \
@@ -22,6 +23,18 @@ LABEL org.label-schema.schema-version="1.0" \
       org.label-schema.vcs-ref="$VCS_REF" \
       org.label-schema.build-date="$BUILD_DATE" \
       org.label-schema.dockerfile="/Dockerfile"
+USER root
+RUN cd /tmp/ \
+ && curl -sSL -O https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz \
+ && tar zxf docker-${DOCKER_VERSION}.tgz \
+ && mkdir -p /usr/local/bin/ \
+ && mv $(find -name 'docker' -type f) /usr/local/bin/ \
+ && chmod +x /usr/local/bin/docker \
+ && apk del curl \
+ && rm -rf /tmp/* \
+ && groupadd docker \
+ && usermod -a -G docker jenkins
+USER jenkins
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 RUN ATTEMPTS="${ARG_ATTEMPTS}" \
     TIMEOUT="${ARG_TIMEOUT}" \

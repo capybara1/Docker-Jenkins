@@ -6,7 +6,7 @@
 
 ## Motivation
 
-Jenkins container with pre-installed plugins (latest version each):
+Jenkins container with pre-installed plugins (latest version):
 
 - [ansible](https://plugins.jenkins.io/ansible)
 - [ansicolor](https://plugins.jenkins.io/ansicolor)
@@ -14,6 +14,7 @@ Jenkins container with pre-installed plugins (latest version each):
 - [blueocean](https://plugins.jenkins.io/blueocean)
 - [build-timeout](https://plugins.jenkins.io/build-timeout)
 - [cloudbees-folder](https://plugins.jenkins.io/cloudbees-folder)
+- [docker-plugin](https://plugins.jenkins.io/docker-plugin)
 - [email-ext](https://plugins.jenkins.io/email-ext)
 - [git](https://plugins.jenkins.io/git)
 - [github](https://plugins.jenkins.io/github)
@@ -30,12 +31,22 @@ Jenkins container with pre-installed plugins (latest version each):
 
 # Setup Remarks 
 
-Clear selection of plugins during setup
+- Clear selection of plugins during setup
 
 ## Usage
 
 ### Command Line
 
 ```sh
-docker run -p --name jenkins --net host -v jenkins_home:/var/jenkins_home capybara1/jenkins:1
+docker run \
+  -d \
+  --name jenkins \
+  --net host \
+  -v jenkins_home:/var/jenkins_home \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  capybara1/jenkins:1.0
 ```
+
+Assumptions:
+
+- Docker API is accessible via unix socket `/var/run/docker.sock`

@@ -4,6 +4,7 @@ antisamy-markup-formatter:latest
 blueocean:latest
 build-timeout:latest
 cloudbees-folder:latest
+docker-plugin:latest
 email-ext:latest
 git:latest
 github:latest
