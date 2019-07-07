@@ -8,4 +8,4 @@ then
     addgroup jenkins docker
 fi
 
-exec su-exec jenkins "/usr/local/bin/jenkins.sh"
+exec su-exec jenkins "/usr/local/bin/jenkins.sh" "$@"
