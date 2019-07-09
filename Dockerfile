@@ -48,6 +48,4 @@ RUN set -x; \
  && chmod +x /usr/local/bin/docker \
  && rm -rf /tmp/*
 COPY docker-entrypoint.sh /
-RUN set -x; \
-    chmod +rx /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
