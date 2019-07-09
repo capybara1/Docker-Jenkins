@@ -14,6 +14,7 @@ Jenkins container with pre-installed plugins (latest version):
 - [blueocean](https://plugins.jenkins.io/blueocean)
 - [build-timeout](https://plugins.jenkins.io/build-timeout)
 - [cloudbees-folder](https://plugins.jenkins.io/cloudbees-folder)
+- [credentials-binding](https://plugins.jenkins.io/credentials-binding)
 - [docker-plugin](https://plugins.jenkins.io/docker-plugin)
 - [email-ext](https://plugins.jenkins.io/email-ext)
 - [git](https://plugins.jenkins.io/git)
@@ -21,12 +22,15 @@ Jenkins container with pre-installed plugins (latest version):
 - [greenballs](https://plugins.jenkins.io/greenballs)
 - [job-dsl](https://plugins.jenkins.io/job-dsl)
 - [locale](https://plugins.jenkins.io/locale)
+- [mailer](https://plugins.jenkins.io/mailer)
 - [matrix-auth](https://plugins.jenkins.io/matrix-auth)
 - [pam-auth](https://plugins.jenkins.io/pam-auth)
 - [pipeline-build-step](https://plugins.jenkins.io/pipeline-build-step)
 - [pipeline-github-lib](https://plugins.jenkins.io/pipeline-github-lib)
 - [pipeline-stage-view](https://plugins.jenkins.io/pipeline-stage-view)
+- [ssh-slaves](https://plugins.jenkins.io/ssh-slaves)
 - [timestamper](https://plugins.jenkins.io/timestamper)
+- [workflow-aggregator](https://plugins.jenkins.io/workflow-aggregator)
 - [ws-cleanup](https://plugins.jenkins.io/ws-cleanup)
 
 # Setup Remarks 
